@@ -9,11 +9,21 @@ from __future__ import print_function, division
 from selenium import webdriver
 import pandas as pd
 
+import os
+
 class Spider(object):
     def __init__(self):
         ## setup
         #self.base_url = base_url
-        self.driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver")
+        try:
+            self.driver = webdriver.Chrome(os.getenv('CHROME_DRIVER'))
+        except:
+            print("\033[1;31m未指明CHROME_DRIVER环境变量\033[0m")
+            print("例如:(Ubuntu)")
+            print("    1. sudo apt-get install chromium-chromedriver")
+            print("    2. export CHROME_DRIVER=/usr/lib/chromium-browser/chromedriver")
+            print("    3. 重新运行")
+            exit()
         self.driver.implicitly_wait(30)
         self.verificationErrors = []
         self.accept_next_alert = True
